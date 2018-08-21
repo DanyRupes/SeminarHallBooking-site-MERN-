@@ -2,6 +2,18 @@
   "scripts": {
     "start": "node server.js"
   },
-  "name": "",
-  "version": ""
+  "name": "shb",
+  "version": "1.0.0",
+  "description": "Seminar Hall Booking APp",
+  "main": "server.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DanyRupes/srec-shb-site.git"
+  },
+  "author": "techie_Dany",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DanyRupes/srec-shb-site/issues"
+  },
+  "homepage": "https://github.com/DanyRupes/srec-shb-site#readme"
 }
