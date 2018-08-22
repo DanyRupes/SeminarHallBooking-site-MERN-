@@ -4,7 +4,7 @@ var app = express()
 var https = require('https')
 var fs = require('fs')
 app.use(express.static(path.join(__dirname,'/views')))
-// app.use(express.static(path.join(__dirname,'/certificates')))
+app.use(express.static(path.join(__dirname,'/verifications')))
 
 app.get('/', function(req, res){
 
