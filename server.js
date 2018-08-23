@@ -15,22 +15,23 @@ const client = new  oAuth2Client.OAuth2Client(webclient2_ID);
 app.use(express.static(path.join(__dirname,'/views')))
 app.use(express.static(path.join(__dirname,'/verifications')))
 app.get('/', function(req, res){
+    console.log("oii")
     res.sendFile(__dirname,'/index.html')
 })
-
-app.post('/verify/shb_user/', function(req, res){
+console.log("oi")
+app.get('/verify/shb_user/', function(req, res){
      
 
-    // console.log(req.body.token_id)
+    console.log(req.param('token_id'))
     // verifyAuth(req.body.token_id)
 
-    verifyAuth(req.body.token_id)
-    .then((result)=>{
-        // console.log(result)
-        const domainName = result.hd;
-        console.log(result)
-        res.send(result)  
-    })
+    // verifyAuth(req.param.token_id)
+    // .then((result)=>{
+    //     // console.log(result)
+    //     const domainName = result.hd;
+    //     console.log(result)
+        res.send("result")  
+    // })
       
     
 })
@@ -63,15 +64,15 @@ async function verifyAuth(token_id) {
 
 
 const httpsOptions = {
-    key : fs.readFileSync(path.join(__dirname, 'certificates','private.pem')),
     cert : fs.readFileSync(path.join(__dirname, 'certificates','certificate.pem')),
+    key : fs.readFileSync(path.join(__dirname, 'certificates','private.pem')),
 }
 
 
 https.createServer(httpsOptions, app).listen(443, function(res){
     console.log('https://localhost')
 })
-// app.listen(80,console.log('http://localhost:8000'))
+// app.listen(8080,console.log('http://localhost:8080'))
 
 
 
