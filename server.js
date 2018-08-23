@@ -64,10 +64,13 @@ async function verifyAuth(token_id) {
 
 
 const httpsOptions = {
-    cert : fs.readFileSync(path.join(__dirname, 'certificates','certificate.pem')),
-    key : fs.readFileSync(path.join(__dirname, 'certificates','private.pem')),
-}
+    ca : fs.readFileSync(path.join(__dirname, 'certificates/additional','single.crt')),
 
+    cert : fs.readFileSync(path.join(__dirname, 'certificates/not-ren','certificate.crt')),
+    key : fs.readFileSync(path.join(__dirname, 'certificates/not-ren','private.key')),
+    // ca : fs.readFileSync(path.join(__dirname, 'certificates/not-ren','ca_bundle.crt')),
+}
+// i have no desire to own you, to claim you. i love you just as you are . free your own.git 
 
 https.createServer(httpsOptions, app).listen(443, function(res){
     console.log('https://localhost')
