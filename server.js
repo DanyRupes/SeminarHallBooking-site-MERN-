@@ -62,7 +62,10 @@ app.post('/verify/shb_user/', function(req, res){
                     }
                 }
             })
-            .catch(ee=>{console.log(ee)})
+            .catch(ee=>{
+                console.log(ee)
+                res.status(500).send("DB Error"+ee)
+            })
         }
         else {
             res.status(406).send("Not Autherized url")
@@ -80,16 +83,13 @@ async function verifyAuth(token_id) {
         idToken : token_id,
         audience : webclient2_ID
     })
-    try {
         const payload = ticket.getPayload();
         return payload;
-    }
-    catch(err){
+
         console.log(err)
         console.log("MyException..." +err)
-        return "501";
     }
- }
+
 
  app.post('/inlude/srec-shb-admins/', function(req, res){
     // console.log(req)
