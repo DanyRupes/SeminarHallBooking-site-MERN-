@@ -19,6 +19,7 @@
   "dependencies": {
     "google-apis": "^1.0.0",
     "google-auth-library": "^1.6.1",
-    "mongoose": "^5.0.0"
+    "mongoose": "^5.0.0",
+    "mongoose-dynamic-schemas": "^1.2.5"
   }
 }
