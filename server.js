@@ -130,8 +130,9 @@ app.get('/shb/mainpage1/feed', function (req, res) {
  })
 //  getting particular date sessions details..
 app.post('/shb/hall/id/bookings/date', function (req, res) { 
-    console.log(req.body.date)
-    console.log(req.body.hall_id)
+    // console.log(req.body)
+    // console.log(req.body.hall_id)
+    // console.log(req.body.date)
     mongoClient.hall_details.findOne({_id : req.body.hall_id,"bookings.date_container.date":req.body.date},{"bookings.date_container.sessions.$":1},function(err,data){
         if(err){
             console.log("err" +err)
@@ -140,8 +141,9 @@ app.post('/shb/hall/id/bookings/date', function (req, res) {
             if(data == null){
                 res.status(901).send("No Data")   
             }else {
-                console.log(data)
-                res.status(302).send(data.bookings.date_container[0].sessions)  //found .. sending list of sessions
+                console.log(data)//data.bookings.date_container[0].sessions
+                let fin_data = data.bookings.date_container[0].sessions;
+                res.status(302).send(fin_data)  //found .. sending list of sessions
             }
         }
     })
@@ -149,6 +151,7 @@ app.post('/shb/hall/id/bookings/date', function (req, res) {
 
 
 app.post('/users/hall/id/', function(req, res){
+    // console.log(req)
     mongoClient.hall_details.findOne({_id : req.body.hall_id}, function(err, data){
         if(err){
             console.log(err)
@@ -156,7 +159,7 @@ app.post('/users/hall/id/', function(req, res){
         }
         else {
             console.log(data)
-            data.bookings = ""   ///speedy
+            data.bookings = undefined   ///speedy
             res.send(data)
         }
     })
@@ -165,19 +168,35 @@ app.post('/users/hall/id/', function(req, res){
 
 
 app.post('/admin/book_hall', function(req, res){
-    let body = req.body;
+
+
+    const jsonInput = {
+        "_id" : req.body._id,
+    "bookings" : {
+            "date_container" : [{
+                "date" : req.body.date,
+                "sessions" : [{
+                    "session_id" : req.body.session_id,
+                    "status" : req.body.status,
+                    "book_desc" : req.body.book_desc,
+                    "by" :req.body.by 	
+            }]
+            }]}
+    }
   
-    let date_cont = req.body.bookings.date_container[0];   // new date
-    // let myDate= req.body.bookings.date_container[0].date;   // new date
-    let session_cont = req.body.bookings.date_container[0].sessions[0]
+
+    let date_cont =jsonInput.bookings.date_container[0];   // new date
+
+    let session_cont = jsonInput.bookings.date_container[0].sessions[0]
  // new session
 
     // console.log(date_cont)
+    console.log(jsonInput)
     console.log(date_cont.date)
-    // console.log(body._id)
+    console.log(jsonInput._id)
 
     // first finding date
-    mongoClient.hall_details.findOne({_id : body._id,"bookings.date_container.date" :date_cont.date}, function (err, date_out) { 
+    mongoClient.hall_details.findOne({_id :jsonInput._id,"bookings.date_container.date" :date_cont.date}, function (err, date_out) { 
         if(err) {console.log(err)
             res.status(404).send("Error While finding date")}
         else {
@@ -185,7 +204,7 @@ app.post('/admin/book_hall', function(req, res){
              if(date_out == null){
                     console.log("else if......")
                     console.log("date null.............. creating one")
-                    mongoClient.hall_details.updateOne({_id : body._id,
+                    mongoClient.hall_details.updateOne({_id : jsonInput._id,
                     },{$addToSet : {"bookings.date_container":date_cont}}, function(err, out){
                         if(err){console.log(err)
                             res.status(401).send("check correct1")
@@ -200,7 +219,7 @@ app.post('/admin/book_hall', function(req, res){
                 console.log("Date present ..Adding new session")
                 console.log("session_cont "+session_cont)
                 // adding to particular date and adding a session
-                mongoClient.hall_details.updateOne({_id : body._id,  "bookings.date_container.date": date_cont.date},
+                mongoClient.hall_details.updateOne({_id : jsonInput._id,  "bookings.date_container.date": date_cont.date},
                 {$addToSet : {"bookings.date_container.$.sessions":session_cont}}, function(err, out){
                     if(err){
                         console.log(err)
@@ -216,19 +235,6 @@ app.post('/admin/book_hall', function(req, res){
      }) 
 }) //post
 
-
-app.post('/departments/get_hall/', function (req, res) {
-    console.log(req.body.hall_id)
-    let hall_id = req.body.id
-    mongoClient.departments.findById({id : hall_id})
-    .then((data)=>{
-        console.log(data)
-        res.status(200).send("Nice")
-    })
-    .catch((err)=>{
-        res.status(203).send("something wrong please wait")
-        console.log(err)})
-})
 
 
 
@@ -265,10 +271,10 @@ app.post('/forrest/home_page/1/', function (req, res) {
   })
 
 
-// https.createServer(httpsOptions, app).listen(443, function(res){
-//     console.log('https://localhost')
-// })
-app.listen(11000,console.log('http://localhost:11000'))
+https.createServer(httpsOptions, app).listen(443, function(res){
+    console.log('https://localhost')
+})
+// app.listen(11000,console.log('http://localhost:11000'))
 
 
 
