@@ -67,7 +67,7 @@ app.post('/verify/shb_user/', function(req, res){
                                 name : name,
                                 email : email,
                                 role : 1,
-                                hall_id : data._id,
+                                hall_id : data.hall_id,
                                 device_token : device_token,
                             }).save().then((fine)=>{
                                 console.log(fine)
@@ -360,8 +360,8 @@ app.post('/forrest/homepage/feed/add', function (req, res) {
 app.post('/forrest/include/account', function (req, res) {
     console.log(req.body.email)
     console.log(req.body.role)
-    console.log(req.body._id)
-    mongoClient.forrest_accounts({email : req.body.email, role :req.body.role,_id : req.body._id}).save()
+    console.log(req.body.hall_id)
+    mongoClient.forrest_accounts({email : req.body.email, role :req.body.role,hall_id : req.body.hall_id}).save()
     .then((out)=>{
         console.log(out)
         res.status(200).send(out)

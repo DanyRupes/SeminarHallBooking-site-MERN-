@@ -91,7 +91,7 @@ var shb_home_page = new Schema({
 var forrest_accounts = new Schema({
     email : String,
     role : Number,
-    _id : Number
+    hall_id : Number
 })
 
 
