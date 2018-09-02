@@ -1,0 +1,40 @@
+{
+	"_id" : "102",
+	"name" : "CSE-Seminar Hall",
+    "head" : {
+        "h_name" : "Dr. A.GRACE SELVARANI",
+        "h_contact" : "+9109834934",
+        "h_email" : "hod-cse@srec.ac.in"
+    },
+    "prime" : [{
+        "p_name" : "Dr. M.S. GEETHA DEVASENA",
+        "p_contact" : "+9109394838",
+        "p_email" : "msgeetha@srec.ac.in",
+        "p_desig" : "Professor"
+    },
+    {
+        "p_name" : "Dr. P. PERUMAL",
+        "p_contact" : "+9109394838",
+        "p_email" : "perumalp@srec.ac.in",
+        "p_desig" : "Professor"
+    },
+        {
+        "p_name" : "Dr.J.SELVAKUMAR",
+        "p_contact" : "+9109394838",
+        "p_email" : "selvakumar.jayakumar@srec.ac.in",
+        "p_desig" : "Professor"
+    }
+    ],
+    "seats" : "100 Nilkamal Weekender Outdoor Chairs",
+    "ac" : "6 Voltas 185 CY 5 Star",
+    "projectors" : "2 Epson BrightLink 536Wi WXGA 3LCD",
+    "bookings" : {
+        "date_container" : [{
+        	"date" : "0-00-0000",
+            "sessions" : [{
+        	    "session_id" : [0],
+                "status" : 2,
+                "book_desc" : "",
+                "by" :"" 	
+        }]}]}
+}

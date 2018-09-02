@@ -1,0 +1,42 @@
+{
+	"_id" : "101",
+	"name" : "IT-Seminar Hall",
+    "head" : {
+        "h_name" : "Dr. M. SENTHAMIL SELVI",
+        "h_contact" : "+9109834934",
+        "h_email" : "senthamilselvi@srec.ac.in",
+        "role" : 1
+    },
+    "prime" : [{
+        "p_name" : "Dr. K.DEEPA",
+        "p_contact" : "+9109394838",
+        "p_email" : "deepa.senthil@srec.ac.in",
+        "p_desig" : "Professor",
+        "role" : 2
+    },
+    {
+        "p_name" : "Dr. V. KARPAGAM",
+        "p_contact" : "+9109394838",
+        "p_email" : "karpagam.vilvanathan@srec.ac.in",
+        "p_desig" : 2
+    },
+        {
+        "p_name" : "Dr.M.KALAIARASU",
+        "p_contact" : "+9109394838",
+        "p_email" : "kalai.muthusamy@srec.ac.in",
+        "p_desig" : 2
+    }
+    ],
+    "seats" : "140 Nilkamal Weekender Outdoor Chairs",
+    "ac" : "6 Voltas 185 CY 5 Star",
+    "projectors" : "1 Epson BrightLink 536Wi WXGA 3LCD",
+    "bookings" : {
+        "date_container" : [{
+        	"date" : "0-00-0000",
+            "sessions" : [{
+        	    "session_id" : [0],
+                "status" : 2,
+                "book_desc" : "",
+                "by" :"" 	
+        }]}]}
+}

@@ -1,0 +1,38 @@
+{
+    "name" : "name",
+    "email" :"email",
+    "role" : "role",
+    "desig" :"desig",
+    "desc" : "desc",
+    "hall_" : "hall_",
+    "device_token" : "device_token",
+    "inbox" : {
+        "i_date" : "date",
+        "sessions" : {
+            "session_id" : "final_Sess_id",
+            "status" : "status",
+            "book_desc" : "book_desc",
+            "by": "by" 	
+        },
+        "i_email" : "String",
+        "d_token" : "String"
+    },
+    "pendings" :  {
+        "p_date" : "date",
+        "sessions" : {
+            "session_id" : "final_Sess_id",
+            "status" : "status",
+            "book_desc" : "book_desc",
+            "by": "by" 	
+        }
+    },
+    "booked" :  {
+        "b_date" : "date",
+        "sessions" : {
+            "session_id" : "final_Sess_id",
+            "status" : "status",
+            "book_desc" : "book_desc",
+            "by" :"by" 	
+        }
+    }
+}

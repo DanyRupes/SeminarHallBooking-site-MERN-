@@ -1,0 +1,25 @@
+{            "name" : "name",
+            "email" :"email",
+            "role" : "role",
+            "device_token" : "device_token",
+            "desig" :"Proffesor",
+            "desc" : "I'm a Profeesor ",
+            "pendings" :  {
+                "date" : "date",
+                "sessions" : {
+                    "session_id" : "final_Sess_id",
+                    "status" : "status",
+                    "book_desc" : "book_desc",
+                    "by": "by" 	
+                 }
+            },
+            "booked" :  [{
+                "date" : "date",
+                "sessions" : {
+                    "session_id" : "final_Sess_id",
+                    "status" : "status",
+                    "book_desc" : "book_desc",
+                    "by" :"by" 	
+                 }
+            }]
+}

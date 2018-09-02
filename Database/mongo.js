@@ -15,10 +15,52 @@ mongoose.connection.on('error',()=>{console.log("Error while connecting db "+url
 
 var Schema = mongoose.Schema;
 
-var accounts_schema = new Schema({
+var superadmin_account = new Schema({
     name : String,
     email :String,
-    role : String
+    role : Number,
+    desig :String,
+    desc : String,
+    hall_id : Number,
+    device_token : String,
+    inbox : [{
+        date : String,
+        sessions : Object,
+        email : String,
+        d_token : String,
+    }],
+    approved :  [{
+        spA_id : Number,
+        date : String,
+        sessions : Object
+    }],
+    pendings :  [{
+        spP_id : Number,
+        date : String,
+        sessions : Object,
+    }],
+    booked :  [{
+        apB_id : Number,
+        date : String,
+        sessions : Object
+    }],
+
+})
+var admin_account = new Schema({
+    name : String,
+    email :String,
+    role : Number,
+    desig :String,
+    desc : String,
+    device_token : String,
+    pendings :  [{
+        date : String,
+        session : Object,
+    }],
+    booked :  [{
+        date : String,
+        sessions : Object
+    }],
 })
 
 
@@ -39,18 +81,32 @@ var hall_details = new Schema({
     },
 })
 
-var mainpage1_feed = new Schema({
+var shb_home_page = new Schema({
     _id : String,
-    name : String,
+    head : String,
     pic : String,
     title : String
 })
 
+var forrest_accounts = new Schema({
+    email : String,
+    role : Number,
+    _id : Number
+})
 
-var accounts_mode = mongoose.model("accounts", accounts_schema)
 
+var superadmin_account = mongoose.model("superadmin_account", superadmin_account)
+var admin_account = mongoose.model("admin_account", admin_account)
+var shb_home_page = mongoose.model("shb_home_page", shb_home_page)
 var hall_details = mongoose.model("hall_details", hall_details)
+var forrest_accounts = mongoose.model("forrest_accounts", forrest_accounts)
 
-var mainpage1_feed = mongoose.model('mainpage1_feed', mainpage1_feed)
-module.exports = {accounts : accounts_mode,hall_details :hall_details, mainpage1_feed: mainpage1_feed}
+// var mainpage1_feed = mongoose.model('mainpage1_feed', mainpage1_feed)
+module.exports = {
+    hall_details :hall_details, 
+    admin_account : admin_account,
+    shb_home_page : shb_home_page,
+    superadmin_account : superadmin_account,
+    forrest_accounts : forrest_accounts
+}
 

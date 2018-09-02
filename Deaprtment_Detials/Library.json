@@ -1,0 +1,28 @@
+{
+	"_id" : "100",
+	"name" : "Library-Seminar Hall",
+    "head" : {
+        "h_name" : "S.KARTHIKEYAN",
+        "h_contact" : "+9109834934",
+        "h_email" : "librarian@srec.ac.in"
+    },
+    "prime" : [{
+        "p_name" : "Dr. B. MATHIVANAN",
+        "p_contact" : "+9109394838",
+        "p_email" : "mathivanan.bala@srec.ac.in",
+        "p_desig" : "Professor"
+    }
+    ],
+    "seats" : "300 Nilkamal Weekender Outdoor Chairs",
+    "ac" : "10 Voltas 185 CY 5 Star",
+    "projectors" : "2 Epson BrightLink 536Wi WXGA 3LCD",
+    "bookings" : {
+        "date_container" : [{
+        	"date" : "0-00-0000",
+            "sessions" : [{
+        	    "session_id" : [0],
+                "status" : 2,
+                "book_desc" : "",
+                "by" :"" 	
+        }]}]}
+}

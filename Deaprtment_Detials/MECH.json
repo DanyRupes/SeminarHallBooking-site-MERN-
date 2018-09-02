@@ -1,0 +1,58 @@
+{
+	"_id" : "104",
+	"name" : "Mechanical-Seminar Hall",
+    "head" : {
+        "h_name" : "Dr.P.Karuppuswamy",
+        "h_contact" : "+9109834934",
+        "h_email" : "hod-mechanical@srec.c.in"
+    },
+    "prime" : [{
+        "p_name" : "Dr.MURUGARAJAN. A",
+        "p_contact" : "+9109394838",
+        "p_email" : "murugarajan@srec.ac.in",
+        "p_desig" : "Professor"
+    },
+    {
+        "p_name" : "Dr . B. A.SARAVANAN",
+        "p_contact" : "+9109394838",
+        "p_email" : "basaravanan@srec.ac.in",
+        "p_desig" : "Professor"
+    },
+        {
+        "p_name" : "Dr. N. SRIMATH",
+        "p_contact" : "+9109394838",
+        "p_email" : "srimath@srec.ac.in",
+        "p_desig" : "Professor"
+    },
+    {
+        "p_name" : "Dr. E. Sarojini",
+        "p_contact" : "+9109394838",
+        "p_email" : "hod-civil@srec.ac.in",
+        "p_desig" : "Professor"
+    },
+    {
+        "p_name" : "Mr. S. DEEPAK",
+        "p_contact" : "+9109394838",
+        "p_email" : "deepak.s@srec.ac.in",
+        "p_desig" : "Professor"
+    },
+    {
+        "p_name" : "Mr. C. RAMESH",
+        "p_contact" : "+9109394838",
+        "p_email" : "ramesh-civil@srec.ac.in",
+        "p_desig" : "Professor"
+    }
+    ],
+    "seats" : "120 Nilkamal Weekender Outdoor Chairs",
+    "ac" : "6 Voltas 185 CY 5 Star",
+    "projectors" : "2 Epson BrightLink 536Wi WXGA 3LCD",
+    "bookings" : {
+        "date_container" : [{
+        	"date" : "0-00-0000",
+            "sessions" : [{
+        	    "session_id" : [0],
+                "status" : 2,
+                "book_desc" : "",
+                "by" :"" 	
+        }]}]}
+}
