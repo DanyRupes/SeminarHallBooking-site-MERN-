@@ -287,7 +287,9 @@ app.post('/admin/book_hall', function(req, res){
                     //second  adding to super admin inbox .store admin email and device token
                         mongoClient.superadmin_account.findOneAndUpdate({hall_id:jsonInput._id},{
                             $addToSet : {inbox : inbox}}).then((fine)=>{
-                            console.log("fine")
+                            console.log("fine/-------////-----------")
+                            
+                            console.log(fine)
                             let head_name = fine.name;
                             // sending message notification to super admin device
                             let sa_inbox_msg = {
@@ -297,7 +299,7 @@ app.post('/admin/book_hall', function(req, res){
                                 },
                                 "notification" : {
                                     "title" : "Hello "+head_name,
-                                    "body" : session_cont.by+" has Requsted Your Seminar Hall on"+date_cont.date
+                                    "body" : session_cont.by+" has Requsted Your Seminar Hall on "+date_cont.date
                                 },
                                 token : fine.device_token
                             } 
@@ -416,10 +418,10 @@ const httpsOptions = {
     key : fs.readFileSync(path.join(__dirname, 'certificates/not-ren','private.key')),
     // ca : fs.readFileSync(path.join(__dirname, 'certificates/not-ren','ca_bundle.crt')),
 }
-// https.createServer(httpsOptions, app).listen(443, function(res){
-//     console.log('https://localhost')
-// })
-app.listen(11000,console.log('http://localhost:11000'))
+https.createServer(httpsOptions, app).listen(443, function(res){
+    console.log('https://localhost')
+})
+// app.listen(11000,console.log('http://localhost:11000'))
 
 
 
