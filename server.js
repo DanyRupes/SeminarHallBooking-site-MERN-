@@ -284,8 +284,9 @@ app.post('/admin/book_hall', function(req, res){
                         email : admin_email,
                         d_token : admin_device_token,
                     }
+                    console.log(jsonInput._id)
                     //second  adding to super admin inbox .store admin email and device token
-                        mongoClient.superadmin_account.findOneAndUpdate({hall_id:jsonInput._id},{
+                        mongoClient.superadmin_account.findOneAndUpdate({hall_id:jsonInput.hall_id},{
                             $addToSet : {inbox : inbox}}).then((fine)=>{
                             console.log("fine/-------////-----------")
                             
