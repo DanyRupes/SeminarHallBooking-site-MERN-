@@ -191,7 +191,7 @@ app.post('/admin/book_hall', function(req, res){
 
 // console.log(req.body.)
     const jsonInput = {
-        "_id" : req.body._id,
+        "_id" : req.body.hall_id,
         "email" : req.body.email,
     "bookings" : {
             "date_container" : [{
@@ -237,7 +237,7 @@ app.post('/admin/book_hall', function(req, res){
                         }
                         else {
                             // console.log(out)
-                            startNotifiy(out); /////////////////////////------------Notifiying process
+                            startNotifiy(); /////////////////////////------------Notifiying process
                             //// messagessss-------
                             // res.status(201).send("Success new date and data's inserted")  //added a date and session
                         }
@@ -254,13 +254,13 @@ app.post('/admin/book_hall', function(req, res){
                         res.status(406).send("check correct2")
                     }
                     else {
-                        startNotifiy(out); /////////////////////////------------Notifiying process
+                        startNotifiy(); /////////////////////////------------Notifiying process
                             //// messagessss-------
                         // res.status(202).send("Success new session inserted")  //updated a day ...added new session
                     }
                 })
             }
-            function startNotifiy(out) { 
+            function startNotifiy() { 
                 // console.log(out)
                 var super_email = [];
                 var admin_device_token;
@@ -284,9 +284,9 @@ app.post('/admin/book_hall', function(req, res){
                         email : admin_email,
                         d_token : admin_device_token,
                     }
-                    console.log(jsonInput._id)
+                    console.log("jsonInput._id " +jsonInput._id)
                     //second  adding to super admin inbox .store admin email and device token
-                        mongoClient.superadmin_account.findOneAndUpdate({hall_id:jsonInput.hall_id},{
+                        mongoClient.superadmin_account.findOneAndUpdate({hall_id:jsonInput._id},{
                             $addToSet : {inbox : inbox}}).then((fine)=>{
                             console.log("fine/-------////-----------")
                             

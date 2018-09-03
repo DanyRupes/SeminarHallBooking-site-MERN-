@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/DanyRupes/srec-shb-site#readme",
   "dependencies": {
+    "firebase-admin": "^6.0.0",
     "google-apis": "^1.0.0",
     "google-auth-library": "^1.6.1",
     "mongoose": "^5.0.0",
