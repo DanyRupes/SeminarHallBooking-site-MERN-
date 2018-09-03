@@ -30,7 +30,6 @@ var superadmin_account = new Schema({
         d_token : String,
     }],
     approved :  [{
-        spA_id : Number,
         date : String,
         sessions : Object
     }],
