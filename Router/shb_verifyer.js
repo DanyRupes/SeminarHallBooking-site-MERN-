@@ -57,7 +57,7 @@ app.post('/verify/shb_user/', function(req, res){
                                         }
                                     })
                                 }else{
-                                    console.log("some other values")
+                                    console.log("changed other values")
                                     res.send(fine)
                                 }
                             }).catch((e)=>{
