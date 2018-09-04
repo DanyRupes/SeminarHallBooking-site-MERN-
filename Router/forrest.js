@@ -7,8 +7,7 @@ const mongoClient = require('../Database/mongo.js')
 app.post('/forrest/add_hall_detail', function(req, res){
     let body = req.body
     console.log(body)
-    new mongoClient.hall_details({
-        "_id" : body._id,
+    mongoClient.hall_details({"_id" : body._id,},{$set :{
         name : body.name,
         head : body.head,
         prime : body.prime,
@@ -16,7 +15,7 @@ app.post('/forrest/add_hall_detail', function(req, res){
         ac : body.ac,
         projectors : body.projectors,
         bookings : req.body.bookings
-    }).save()
+    }},{upsert:true})
     .then((data)=>{res.send(data)})
     .catch((err)=>{console.log(err)
     res.status(500).send("correction shld noted")})
@@ -24,7 +23,7 @@ app.post('/forrest/add_hall_detail', function(req, res){
 
 // Forrest Srec-shb main page -- little infos : {Name, Hall Title, Pic}
 app.post('/forrest/homepage/feed/add', function (req, res) {
-   new mongoClient.shb_home_page({head: req.body.head,title :req.body.title,_id : req.body._id}).save()
+   mongoClient.shb_home_page.findOneAndUpdate({_id : req.body._id},{$set : {head: req.body.head,title :req.body.title,}},{upsert:true})
     .then((dat)=>{
         console.log(dat)
         res.status(202).send("Forrest Okay")
@@ -38,7 +37,7 @@ app.post('/forrest/include/account', function (req, res) {
     console.log(req.body.email)
     console.log(req.body.role)
     console.log(req.body.hall_id)
-    mongoClient.forrest_accounts({email : req.body.email, role :req.body.role,hall_id : req.body.hall_id}).save()
+    mongoClient.forrest_accounts.findOneAndUpdate({email : req.body.email},{$set :{role :req.body.role,hall_id : req.body.hall_id}},{upsert:true})
     .then((out)=>{
         console.log(out)
         res.status(200).send(out)
@@ -49,46 +48,47 @@ app.post('/forrest/include/account', function (req, res) {
     })
   })
 
-//   temporary for forrest add fake admin account for Booking process
-app.post('/forrest/dummy/include/admin_acc', function (req, res) {
-    console.log("Admin")
-    
-    new mongoClient.admin_account({
-        name : req.body.name,
-        email : req.body.email,
-        role : 1,
-        device_token : req.body.device_token,
-    }).save().then((fine)=>{
-        console.log(fine)
-        res.status(201).send("created admin")
-    }).catch((e)=>{
-        console.log(e)
-        res.status(406).send("Not Accepted ad")
-    })
-  })
 
-//   temporary for forrest add fake Super-admin account for Booking process
-app.post('/forrest/dummy/include/super_admin_acc', function (req, res) {
-    console.log("Admin")
-    
-    new mongoClient.superadmin_account({
-        name : req.body.name,
-        email : req.body.email,
-        role : 1,
-        hall_id : req.body._id,
-        device_token : req.body.device_token,
-    }).save().then((fine)=>{
-        console.log(fine)
-        res.status(201).send("created super admin")
-    }).catch((e)=>{
-        console.log(e)
-        res.status(406).send("Not Accepted ad")
-    })
-  })
-
-
-
-
-
-
+  
 module.exports = app
+
+
+
+
+// //   temporary for forrest add fake admin account for Booking process
+// app.post('/forrest/dummy/include/admin_acc', function (req, res) {
+//     console.log("Admin")
+    
+//     new mongoClient.admin_account({
+//         name : req.body.name,
+//         email : req.body.email,
+//         role : 1,
+//         device_token : req.body.device_token,
+//     }).save().then((fine)=>{
+//         console.log(fine)
+//         res.status(201).send("created admin")
+//     }).catch((e)=>{
+//         console.log(e)
+//         res.status(406).send("Not Accepted ad")
+//     })
+//   })
+
+
+// //   temporary for forrest add fake Super-admin account for Booking process
+// app.post('/forrest/dummy/include/super_admin_acc', function (req, res) {
+//     console.log("Admin")
+    
+//     new mongoClient.superadmin_account({
+//         name : req.body.name,
+//         email : req.body.email,
+//         role : 1,
+//         hall_id : req.body._id,
+//         device_token : req.body.device_token,
+//     }).save().then((fine)=>{
+//         console.log(fine)
+//         res.status(201).send("created super admin")
+//     }).catch((e)=>{
+//         console.log(e)
+//         res.status(406).send("Not Accepted ad")
+//     })
+//   })

@@ -19,9 +19,10 @@ app.post('/super_admin/approved', function(req,res){
     console.log(req.query.hall_id)
     mongoClient.superadmin_account.find({hall_id:req.query.hall_id},{approved :1})
     .then((data) => {
-        console.log("data"+data)
-        console.log("data.approved"+data)
-        res.send(data)
+        //        console.log("data"+data.approved)
+                console.log("data.approved"+data.approved)
+                res.send(data.approved)
+        
     }).catch((err) => {
         res.send(err)
     });

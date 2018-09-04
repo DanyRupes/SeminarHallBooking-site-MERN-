@@ -38,10 +38,10 @@ const httpsOptions = {
     key : fs.readFileSync(path.join(__dirname, 'certificates/not-ren','private.key')),
     // ca : fs.readFileSync(path.join(__dirname, 'certificates/not-ren','ca_bundle.crt')),
 }
-// https.createServer(httpsOptions, app).listen(443, function(res){
-  //   console.log('https://localhost')
- //})
-app.listen(11000,console.log('http://localhost:11000'))
+https.createServer(httpsOptions, app).listen(443, function(res){
+    console.log('https://localhost')
+ })
+// app.listen(11000,console.log('http://localhost:11000'))
 
 
 
