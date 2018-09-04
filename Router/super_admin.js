@@ -7,7 +7,7 @@ app.post('/super_admin/inbox', function(req,res){
     console.log(req.query.hall_id)
     mongoClient.superadmin_account.findOne({hall_id:req.query.hall_id},{inbox :1})
     .then((details) => {
-        console.log(details.inbox)
+        console.log("details"+details.inbox)
         res.send(details.inbox) ///inbpx array
     }).catch((err) => {
         res.send(err)
