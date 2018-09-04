@@ -114,13 +114,13 @@ app.post('/admin/book_hall', function(req, res){
                         email : admin_email,
                         d_token : admin_device_token,
                     }
-                    console.log("jsonInput._id " +jsonInput._id)
+                    console.log("admin_device_token1 " +admin_device_token)
                     //second  adding to super admin inbox .store admin email and device token
                         mongoClient.superadmin_account.findOneAndUpdate({hall_id:jsonInput._id},{
                             $addToSet : {inbox : inbox}}).then((fine)=>{
                             console.log("fine/-------////-----------")
                             
-                            console.log(fine)
+                            console.log("admin_device_token2 "+admin_device_token)
                             let head_name = fine.name;
                             // sending message notification to super admin device
                                     let sa_inbox_msg = {

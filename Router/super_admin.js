@@ -3,7 +3,7 @@ var app = express()
 const mongoClient = require('../Database/mongo.js')
 
 // super-admin inbox
-app.get('/super_admin/inbox', function(req,res){
+app.post('/super_admin/inbox', function(req,res){
     console.log(req.query.hall_id)
     mongoClient.superadmin_account.findOne({hall_id:req.query.hall_id},{inbox :1})
     .then((details) => {
@@ -13,9 +13,9 @@ app.get('/super_admin/inbox', function(req,res){
         res.send(err)
     });
 })
-
+ 
 //  super-admin approved lists
-app.get('/super_admin/approved', function(req,res){
+app.post('/super_admin/approved', function(req,res){
     console.log(req.query.hall_id)
     mongoClient.superadmin_account.find({hall_id:req.query.hall_id},{approved :1})
     .then((data) => {
@@ -29,7 +29,7 @@ app.get('/super_admin/approved', function(req,res){
 
 
 // super-admin get Account details
-app.get('/super_admin/account', function(req,res){
+app.post('/super_admin/account', function(req,res){
     console.log(req.query.hall_id)
     mongoClient.superadmin_account.findOne({hall_id:req.query.hall_id,email:req.query.email},{approved :1})
     .then((data) => {

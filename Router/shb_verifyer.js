@@ -36,15 +36,30 @@ app.post('/verify/shb_user/', function(req, res){
                         let role = data.role;
                         if(role==1){   //super admin part
                             console.log("Super Admin")
-                            new mongoClient.superadmin_account({
+                            mongoClient.superadmin_account.findOneAndUpdate({
                                 name : name,
                                 email : email,
                                 role : 1,
                                 hall_id : data.hall_id,
+                            },{$set :{
                                 device_token : device_token,
-                            }).save().then((fine)=>{
-                                console.log(fine)
-                                res.status(201).send(fine)
+                            }},{upsert:true}).then((fine)=>{
+                                console.log(fine)////if no valus in db it returns null and we should get updated document
+                                if(fine==null){
+                                    mongoClient.findOne({email:email}, function(err, data){
+                                        if(err){
+                                            console.log("err on creating super admin acc"+err)
+                                            res.send(err)
+                                        }
+                                        else{
+                                            console.log(data)
+                                            res.send(data)
+                                        }
+                                    })
+                                }else{
+                                    console.log("some other values")
+                                    res.send(fine)
+                                }
                             }).catch((e)=>{
                                 console.log(e)
                                 res.status(406).send("Not Accepted sp")
@@ -52,14 +67,27 @@ app.post('/verify/shb_user/', function(req, res){
                         }
                         else { //admin part
                             console.log("Admin")
-                            new mongoClient.admin_account({
+                            mongoClient.admin_account.findOneAndUpdate({
                                 name : name,
                                 email : email,
                                 role : 2,
-                                device_token : device_token,
-                            }).save().then((fine)=>{
-                                console.log(fine)
-                                res.status(201).send(fine)
+                            },{
+                                $set :{device_token : device_token,}
+                            },{upsert:true}).then((fine)=>{
+                                if(fine==null){
+                                    mongoClient.admin_account.findOne({email:email}, function (err, data) {
+                                        if(err){
+                                            console.log("error in admin acc creation"+err)
+                                            res.send(err)
+                                        }else {
+                                            res.status(201).send(data)
+                                        }
+                                      })
+                                }
+                                else {
+                                    console.log("fine"+fine)
+                                    res.send(fine)
+                                }
                             }).catch((e)=>{
                                 console.log(e)
                                 res.status(406).send("Not Accepted ad")
