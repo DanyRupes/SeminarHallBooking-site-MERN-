@@ -39,8 +39,8 @@ const httpsOptions = {
     // ca : fs.readFileSync(path.join(__dirname, 'certificates/not-ren','ca_bundle.crt')),
 }
 // https.createServer(httpsOptions, app).listen(443, function(res){
-//     console.log('https://localhost')
-// })
+  //   console.log('https://localhost')
+ //})
 app.listen(11000,console.log('http://localhost:11000'))
 
 
