@@ -15,14 +15,5 @@
     ],
     "seats" : "300 Nilkamal Weekender Outdoor Chairs",
     "ac" : "10 Voltas 185 CY 5 Star",
-    "projectors" : "2 Epson BrightLink 536Wi WXGA 3LCD",
-    "bookings" : {
-        "date_container" : [{
-        	"date" : "0-00-0000",
-            "sessions" : [{
-        	    "session_id" : [0],
-                "status" : 2,
-                "book_desc" : "",
-                "by" :"" 	
-        }]}]}
+    "projectors" : "2 Epson BrightLink 536Wi WXGA 3LCD"
 }

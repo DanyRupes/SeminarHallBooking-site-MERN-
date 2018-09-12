@@ -17,10 +17,10 @@ app.post('/super_admin/inbox', function(req,res){
 //  super-admin approved lists
 app.post('/super_admin/approved', function(req,res){
     console.log(req.query.hall_id)
-    mongoClient.superadmin_accounts.find({hall_id:req.query.hall_id},{approved :1})
+    mongoClient.superadmin_accounts.findOne({hall_id:req.query.hall_id},{approved :1})
     .then((data) => {
         //        console.log("data"+data.approved)
-                console.log("data.approved"+data.approved)
+                console.log(data.approved)
                 res.send(data.approved)
         
     }).catch((err) => {
