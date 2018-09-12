@@ -6,15 +6,16 @@ const mongoClient = require('../Database/mongo.js')
 // Forrest Add Hall Details.......
 app.post('/forrest/add_hall_detail', function(req, res){
     let body = req.body
+    console.log("body")
     console.log(body)
-    mongoClient.hall_details({"_id" : body._id,},{$set :{
+    mongoClient.hall_details.findOneAndUpdate({"_id" : body._id,},{$set :{
         name : body.name,
         head : body.head,
         prime : body.prime,
         seats : body.seats,
         ac : body.ac,
         projectors : body.projectors,
-        bookings : req.body.bookings
+        bookings : {}
     }},{upsert:true})
     .then((data)=>{res.send(data)})
     .catch((err)=>{console.log(err)
@@ -54,6 +55,30 @@ module.exports = app
 
 
 
+// app.post('/forrest/dummy/super-admin/approved/add', function (req, res) {
+//     const jsonIn = {
+//         "_id" : req.body.hall_id,
+//         "email" : req.body.email,
+//     "bookings" : {
+//             "date_container" : {
+//                 "date" : req.body.date,
+//                 "sessions" : {
+//                     "session_id" : req.body.session_id,
+//                     "status" : req.body.status,
+//                     "book_desc" : req.body.book_desc,
+//                     "by" :req.body.by 	
+//                  },
+//             }}
+//      }
+//      console.log(jsonIn.bookings.date_container)
+//      mongoClient.superadmin_accounts.updateMany({hall_id : req.body.hall_id},{
+//         $addToSet : {approved : jsonIn.bookings.date_container}
+//     }).then((dat)=>{
+//         res.send(dat)
+//     }).catch((er)=>{
+//         res.send(er)
+//     })
+//   })
 
 // //   temporary for forrest add fake admin account for Booking process
 // app.post('/forrest/dummy/include/admin_acc', function (req, res) {
@@ -78,7 +103,7 @@ module.exports = app
 // app.post('/forrest/dummy/include/super_admin_acc', function (req, res) {
 //     console.log("Admin")
     
-//     new mongoClient.superadmin_account({
+//     new mongoClient.superadmin_accounts({
 //         name : req.body.name,
 //         email : req.body.email,
 //         role : 1,

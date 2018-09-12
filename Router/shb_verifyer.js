@@ -36,7 +36,7 @@ app.post('/verify/shb_user/', function(req, res){
                         let role = data.role;
                         if(role==1){   //super admin part
                             console.log("Super Admin")
-                            mongoClient.superadmin_account.findOneAndUpdate({
+                            mongoClient.superadmin_accounts.findOneAndUpdate({
                                 name : name,
                                 email : email,
                                 role : 1,
@@ -46,7 +46,7 @@ app.post('/verify/shb_user/', function(req, res){
                             }},{upsert:true}).then((fine)=>{
                                 console.log(fine)////if no valus in db it returns null and we should get updated document
                                 if(fine==null){
-                                    mongoClient.findOne({email:email}, function(err, data){
+                                    mongoClient.superadmin_accounts.findOne({email:email}, function(err, data){
                                         if(err){
                                             console.log("err on creating super admin acc"+err)
                                             res.send(err)
@@ -67,7 +67,7 @@ app.post('/verify/shb_user/', function(req, res){
                         }
                         else { //admin part
                             console.log("Admin")
-                            mongoClient.admin_account.findOneAndUpdate({
+                            mongoClient.admin_accounts.findOneAndUpdate({
                                 name : name,
                                 email : email,
                                 role : 2,
@@ -75,7 +75,7 @@ app.post('/verify/shb_user/', function(req, res){
                                 $set :{device_token : device_token,}
                             },{upsert:true}).then((fine)=>{
                                 if(fine==null){
-                                    mongoClient.admin_account.findOne({email:email}, function (err, data) {
+                                    mongoClient.admin_accounts.findOne({email:email}, function (err, data) {
                                         if(err){
                                             console.log("error in admin acc creation"+err)
                                             res.send(err)

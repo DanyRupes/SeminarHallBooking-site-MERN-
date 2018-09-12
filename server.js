@@ -10,10 +10,10 @@ app.use(bodyparser.urlencoded({extended : true}))
 app.use(bodyparser.json())
 
 
-app.use(express.static(path.join(__dirname,'/views')))
+app.use(express.static(path.join(__dirname,'/views'))) // html pages
 app.use(express.static(path.join(__dirname,'/verifications')))
 app.get('/', function(req, res){
-    console.log("oii")
+    console.log("hi")
     // res.sendFile(__dirname,'/index.html')
     res.send("hello Java")
 })
@@ -23,11 +23,13 @@ var admin_book = require('./Router/admin_book.js')
 var shb_verifyer = require('./Router/shb_verifyer.js')
 var common = require('./Router/common.js')
 var forrest = require('./Router/forrest.js')
+var approval = require('./Router/approval.js')
 app.use('/',super_admin)
 app.use('/',admin_book)
 app.use('/',shb_verifyer)
 app.use('/',common)
 app.use('/',forrest)
+app.use('/',approval)
 
 
 // i have no desire to own you, to claim you. i love you just as you are . free your own.git 
@@ -38,10 +40,10 @@ const httpsOptions = {
     key : fs.readFileSync(path.join(__dirname, 'certificates/not-ren','private.key')),
     // ca : fs.readFileSync(path.join(__dirname, 'certificates/not-ren','ca_bundle.crt')),
 }
-https.createServer(httpsOptions, app).listen(443, function(res){
-    console.log('https://localhost')
- })
-// app.listen(11000,console.log('http://localhost:11000'))
+// https.createServer(httpsOptions, app).listen(443, function(res){
+//     console.log('https://localhost')
+//  })
+app.listen(11000,console.log('http://localhost:11000'))
 
 
 

@@ -15,7 +15,7 @@ mongoose.connection.on('error',()=>{console.log("Error while connecting db "+url
 
 var Schema = mongoose.Schema;
 
-var superadmin_account = new Schema({
+var superadmin_accounts = new Schema({
     name : String,
     email :String,
     role : Number,
@@ -25,40 +25,43 @@ var superadmin_account = new Schema({
     device_token : String,
     inbox : [{
         date : String,
-        sessions : Object,
+        sessions : {
+            "session_id" : Object,
+            "status" : Number,
+            "book_desc" :String,
+            "by" :String 	
+         },
         email : String,
         d_token : String,
     }],
     approved :  [{
         date : String,
-        sessions : Object
-    }],
-    pendings :  [{
-        spP_id : Number,
-        date : String,
-        sessions : Object,
-    }],
-    booked :  [{
-        apB_id : Number,
-        date : String,
-        sessions : Object
-    }],
-
+        sessions : {
+            "session_id" : Object,
+            "status" : Number,
+            "book_desc" :String,
+            "by" :String 	
+         },
+        email : String,
+        d_token : String,
+    }]
 })
-var admin_account = new Schema({
+var admin_accounts = new Schema({
     name : String,
     email :String,
     role : Number,
     desig :String,
     desc : String,
     device_token : String,
-    pendings :  [{
-        date : String,
-        session : Object,
-    }],
+    pendings :  Array,
     booked :  [{
         date : String,
-        sessions : Object
+        sessions : {
+            "session_id" : [Number],
+            "status" : Number,
+            "book_desc" :String,
+            "by" :String 	
+         }
     }],
 })
 
@@ -73,10 +76,7 @@ var hall_details = new Schema({
     ac : String,
     projectors : String,
     bookings : {
-        date_container : [{
-            date : String,
-            sessions : Array
-        }]
+        date_container : Array
     },
 })
 
@@ -94,8 +94,8 @@ var forrest_accounts = new Schema({
 })
 
 
-var superadmin_account = mongoose.model("superadmin_account", superadmin_account)
-var admin_account = mongoose.model("admin_account", admin_account)
+var superadmin_accounts = mongoose.model("superadmin_accounts", superadmin_accounts)
+var admin_accounts = mongoose.model("admin_accounts", admin_accounts)
 var shb_home_page = mongoose.model("shb_home_page", shb_home_page)
 var hall_details = mongoose.model("hall_details", hall_details)
 var forrest_accounts = mongoose.model("forrest_accounts", forrest_accounts)
@@ -103,9 +103,9 @@ var forrest_accounts = mongoose.model("forrest_accounts", forrest_accounts)
 // var mainpage1_feed = mongoose.model('mainpage1_feed', mainpage1_feed)
 module.exports = {
     hall_details :hall_details, 
-    admin_account : admin_account,
+    admin_accounts : admin_accounts,
     shb_home_page : shb_home_page,
-    superadmin_account : superadmin_account,
+    superadmin_accounts : superadmin_accounts,
     forrest_accounts : forrest_accounts
 }
 

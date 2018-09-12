@@ -10,16 +10,12 @@ admin.initializeApp({
   var firebase_msg = admin.messaging().app
 
 
-app.post('/admin/book_hall', function(req, res){
+
+
+app.post('/admin/book_hall/', function(req, res){
     // var final_Sess_id=[];
     // for(let i=0;i<req.body.session_id.length;i++){
 
-    //    final_Sess_id.push(req.body.session_id[i]);
-    // }
-    // console.log("finalsession_id"+final_Sess_id)
-  
-
-// console.log(req.body.)
     const jsonInput = {
         "_id" : req.body.hall_id,
         "email" : req.body.email,
@@ -35,20 +31,12 @@ app.post('/admin/book_hall', function(req, res){
             }]}
      }
 
- 
     let date_cont =jsonInput.bookings.date_container[0];   // new date
-
+console.log("---------------------------s-----------------------------")
+console.log(date_cont)
     let session_cont = jsonInput.bookings.date_container[0].sessions[0]
     let admin_email = req.body.email;
- // new session
 
-    // console.log(date_cont)
-    // // console.log(jsonInput.bookings.date_container.)
-    // console.log(jsonInput._id)
-    // console.log(date_cont.date)
-    // console.log(admin_email)
-    // console.log("finalsession_id"+req.body.session_id)
-   
     // first finding date
     mongoClient.hall_details.findOne({_id :jsonInput._id,"bookings.date_container.date" :date_cont.date}, function (err, date_out) { 
         if(err) {console.log(err)
@@ -61,12 +49,12 @@ app.post('/admin/book_hall', function(req, res){
                     console.log("else if......")
                     console.log("date null.............. creating one")
                     mongoClient.hall_details.findOneAndUpdate({_id : jsonInput._id,
-                    },{$addToSet : {"bookings.date_container":date_cont}}, function(err, out){
+                    },{$addToSet : {"bookings.date_container":date_cont}},{upsert:true}, function(err, out){
                         if(err){console.log(err)
                             res.status(401).send("check correct1")
                         }
                         else {
-                            // console.log(out)
+                            console.log(out)
                             startNotifiy(); /////////////////////////------------Notifiying process
                             //// messagessss-------
                             // res.status(201).send("Success new date and data's inserted")  //added a date and session
@@ -75,15 +63,16 @@ app.post('/admin/book_hall', function(req, res){
                 }
             else {
                 console.log("Date present ..Adding new session")
-                
+                // bookings.date_container.$.sessions
                 // adding to particular date and adding a session
                 mongoClient.hall_details.findOneAndUpdate({_id : jsonInput._id,  "bookings.date_container.date": date_cont.date},
-                {$addToSet : {"bookings.date_container.$.sessions":session_cont}}, function(err, out){
+                {$addToSet : {"bookings.date_container.$.sessions":session_cont}},{upsert:true}, function(err, out){
                     if(err){
                         console.log(err)
                         res.status(406).send("check correct2")
                     }
                     else {
+                        console.log(out)
                         startNotifiy(); /////////////////////////------------Notifiying process
                             //// messagessss-------
                         // res.status(202).send("Success new session inserted")  //updated a day ...added new session
@@ -99,15 +88,18 @@ app.post('/admin/book_hall', function(req, res){
                 // console.log(session_cont)
                 let pendings = {
                     date : date_cont.date,
-                    session : session_cont
+                    sessions : session_cont
                 }
+                console.log("pendings ")
+                console.log(pendings)
+                console.log(admin_email)
                 // add first to admin pending bucket
-                mongoClient.admin_account.findOneAndUpdate({email : admin_email},{$addToSet : {pendings : pendings}
-                },{projection:{device_token:1}})  //getting admin device token
-                .then((data)=>{
-                    // console.log(data)
-                    console.log(data)
-                    admin_device_token = data.device_token;
+                mongoClient.admin_accounts.findOneAndUpdate({email : admin_email},{$addToSet : {pendings : pendings}
+                },{upsert:true})  //getting admin device token
+                .then((adData)=>{
+                    console.log("admin Resultss.... ")
+                    console.log(adData)
+                    admin_device_token = adData.device_token;
                     let inbox = {
                         date : date_cont.date,
                         sessions : session_cont,
@@ -115,9 +107,10 @@ app.post('/admin/book_hall', function(req, res){
                         d_token : admin_device_token,
                     }
                     console.log("admin_device_token1 " +admin_device_token)
+                    console.log("inbox " +inbox)
                     //second  adding to super admin inbox .store admin email and device token
-                        mongoClient.superadmin_account.findOneAndUpdate({hall_id:jsonInput._id},{
-                            $addToSet : {inbox : inbox}}).then((fine)=>{
+                        mongoClient.superadmin_accounts.findOneAndUpdate({hall_id:jsonInput._id},{
+                            $addToSet : {inbox : inbox},upsert:true}).then((fine)=>{
                             console.log("fine/-------////-----------")
                             
                             console.log("admin_device_token2 "+admin_device_token)
