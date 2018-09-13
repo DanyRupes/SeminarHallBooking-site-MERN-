@@ -44,7 +44,18 @@ var superadmin_accounts = new Schema({
          },
         email : String,
         d_token : String,
-    }]
+    }],
+    rejected : [{
+        date : String,
+        sessions : {
+            "session_id" : Object,
+            "status" : Number,
+            "book_desc" :String,
+            "by" :String 	
+         },
+        email : String,
+        d_token : String,
+    }],
 })
 var admin_accounts = new Schema({
     name : String,
@@ -62,6 +73,17 @@ var admin_accounts = new Schema({
             "book_desc" :String,
             "by" :String 	
          }
+    }],
+    rejected : [{
+        date : String,
+        sessions : {
+            "session_id" : Object,
+            "status" : Number,
+            "book_desc" :String,
+            "by" :String 	
+         },
+        email : String,
+        d_token : String,
     }],
 })
 

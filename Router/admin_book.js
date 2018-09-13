@@ -24,7 +24,7 @@ app.post('/admin/book_hall/', function(req, res){
                 "date" : req.body.date,
                 "sessions" : [{
                     "session_id" : req.body.session_id,
-                    "status" : req.body.status,
+                    "status" : -1,
                     "book_desc" : req.body.book_desc,
                     "by" :req.body.by 	
                  }],
@@ -118,13 +118,18 @@ console.log(date_cont)
                             // sending message notification to super admin device
                                     let sa_inbox_msg = {
                                         data : {
-                                            hall : "booked",
-                                            status : "okay",
+                                            "title" : "Hello "+head_name,
+                                            "body" : session_cont.by+" has Requsted Your Seminar Hall on "+date_cont.date,
+                                            "code":"101",
                                         },
+                                        "android":{
                                         "notification" : {
                                             "title" : "Hello "+head_name,
-                                            "body" : session_cont.by+" has Requsted Your Seminar Hall on "+date_cont.date
-                                        },
+                                            "body" : session_cont.by+" has Requsted Your Seminar Hall on "+date_cont.date,
+                                            "click_action":"com.techie_dany.srecshb.firenotify",
+                                           
+                                        }
+                                    },
                                         token : fine.device_token
                                     } 
                                     firebase_msg.messaging().send(sa_inbox_msg).then((nice)=>{

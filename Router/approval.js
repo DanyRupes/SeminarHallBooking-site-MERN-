@@ -12,40 +12,11 @@ var fbadmin = require('firebase-admin')
 var messaging = fbadmin.messaging().app
 
     app.post('/super_admin/accept/session', function(req, res){
-            // {
-            // "date":"",
-            // "hall_id":101,
-            // "sessions_id":[5,6]
-            // }
-    
-        const jsonInput = {
-            "email" : req.body.email,
-            "hall_id":req.body.hall_id,
-        "bookings" : {
-                "date_container" : [{
-                    "date" : req.body.date,
-                    "sessions" : [{
-                        "session_id" : req.body.session_id,
-                        "status" : 1,
-                        "book_desc" : req.body.book_desc,
-                        "by" :req.body.by 	
-                    }],
-                }]}
-        }
-    
-        let date_cont =jsonInput.bookings.date_container[0];   // new date
 
-        let session_cont = jsonInput.bookings.date_container[0].sessions[0]
-        console.log(req.body.date)
-        console.log(req.body.hall_id)
-        //     var ses_Array = [];
-        //   for (let y=0;y<req.body.session_id.length;y++){
-        //       ses_Array.push(req.body.session_id[y])
-        //  }
     ///getting inbox data
         mongoClient.superadmin_accounts.findOne({hall_id:req.body.hall_id,"inbox.date":req.body.date},{"inbox":1,"name":1})
         .then((suresult) => {
-            //  console.log(result.inbox)
+             console.log(suresult)
             var db_array = []
             var jingz_array = []
             // getting all db array and filtering for getting only out jingz array(approved)
@@ -148,7 +119,9 @@ var messaging = fbadmin.messaging().app
                                                                             console.log(jingz_array.d_token)
                                                                             let message = {
                                                                                 data : {
-
+                                                                                    "title":"Hello "+machi.name,
+                                                                                    "body":suresult.name +" has just Accepted your Bookings for "+jingz_array.sessions.by,
+                                                                                    "code":"102",
                                                                                 },
                                                                                 "android" :{
                                                                                     "notification":{
@@ -174,7 +147,7 @@ var messaging = fbadmin.messaging().app
                                                                     startNotifyAdmin()
                                                                     .catch((notifierr)=>{
                                                                         console.log(notifierr)
-                                                                        res.send("error on messese sending to admin")
+                                                                        // res.send("error on messese sending to admin")
                                                                     })
                                                         }).catch((err) => {
                                                             
@@ -199,7 +172,206 @@ var messaging = fbadmin.messaging().app
             res.send(err)
         });
         })
-    module.exports = app;
+    
+    
+    app.post('/super_admin/cancel/session', function(req, res){
+        mongoClient.superadmin_accounts.findOne({hall_id:req.body.hall_id,"inbox.date":req.body.date},{"inbox":1,"name":1})
+        .then((suresult) => {
+            //  console.log(result.inbox)
+            var db_array = []
+            var jingz_array = []
+            // getting all db array and filtering for getting only out jingz array(approved)
+            suresult.inbox.filter(function (val) { 
+                if(val.sessions.session_id.toString() == req.body.session_id.toString() && val.date == req.body.date){
+                    val.sessions.status = 1;
+                    jingz_array = val
+                }else {
+                    db_array.push(val)
+                }
+            })
+            //  Approving and removing =>approved and inbox-
+                mongoClient.superadmin_accounts.findOneAndUpdate({hall_id:req.body.hall_id},{$set :{"inbox":db_array},$addToSet:{"rejected":jingz_array}})
+                    .then((div) => {
+                        // res.send("Approved and removed from superadmin inbox ")
+                        //              removing from halls_details and admin pendings
+                        // console.log(jingz_array)
+                            mongoClient.admin_accounts.findOne({email:jingz_array.email,"pendings.date":req.body.date},{"pendings":1})
+                                .then((adjees) => {
+                                    // console.log(adjees)
+                                    
+                                        var ad_db_array = []
+                                        adjees.pendings.filter(function (toast) {
+                                            // console.log(toast)
+                                            // console.log(toast.sessions.session_id)
+                                            if(toast.sessions.session_id.toString()==req.body.session_id.toString() && toast.date == req.body.date){}
+                                            else {
+                                                ad_db_array.push(toast);
+                                            }
+                                        })
+
+                                        console.log("ad_db_array--!@#$%^&*&^%$#@")
+                                        console.log(ad_db_array)
+                                        //   adding to booked and removing from pendings
+                                        mongoClient.admin_accounts.findOneAndUpdate({email:jingz_array.email},{$set :{"pendings":ad_db_array},$addToSet:{"rejected":jingz_array}})
+                                        .then((machi) => {
+                                            console.log("machi+++++++++_+_+_+_+_+_+_+_")
+                                            console.log(machi)
+
+                                                    // setting status of hall_details status =1 #booked
+                                                    mongoClient.hall_details.findOneAndUpdate({_id:req.body.hall_id,"bookings.date_container.date":req.body.date},{$unset:{"bookings.date_container.$":""}},
+                                                    {projection:{"bookings.date_container.$":1}})
+                                                        .then((rish) => {
+                                                            console.log("rish )_)()(()(*()(*")
+                                                            // console.log(rish)
+                                                            console.log(rish.bookings.date_container[0])
+                                                            
+                                                            
+                                                                    async function filterFine() { // array of objects 
+
+                                                                    var advind =  await rish.bookings.date_container[0].sessions.map(function (aish) { 
+                                                                        console.log("aish")
+                                                                                console.log(aish.session_id.toString(),req.body.session_id.toString())
+                                                                                console.log(aish.session_id.toString()==req.body.session_id.toString())
+                                                                            if(aish.session_id.toString()==req.body.session_id.toString()){
+                                                                                aish.status = 0; //booked
+                                                                                delete aish._id
+                                                                                console.log("yaaaaaaaaaaaaaaaaaaah ")
+                                                                                return aish
+                                                                            }else {
+                                                                                delete aish._id
+                                                                                return aish
+                                                                            }
+                                                                        })
+                                                                        
+                                                                        //  return advind;
+                                                                        console.log("///////////////Async starting//////////// " + advind)
+                                                                        // var temp_fine = {
+                                                                        //     "sessions" : []
+                                                                        // };
+                                                                        // for(let cup=0;cup<advind.length;cup++){
+                                                                    
+                                                                        let  tempad =  {
+                                                                            date : req.body.date,
+                                                                            sessions : advind,
+                                                                            }
+
+                                    
+                                                                        // }
+                                                                        // res.send(tempad)
+                                                                            console.log("tempad ")
+                                                                            console.log(tempad)
+                                                                        mongoClient.hall_details.findOneAndUpdate({_id:req.body.hall_id},{
+                                                                            $addToSet :{"bookings.date_container":tempad}})
+                                                                        .then((ac) => {
+                                                                            console.log("all is fine----------")
+
+                                                                           
+                                                                            res.send(ac)
+                                                                            //  return 1
+                                                                        }).catch((tut) => {
+                                                                            console.log(tut)
+                                                                            console.log("tut")
+                                                                            return "000"
+                                                                        });
+                                                                        // }
+                                                                        }
+                                                                        async function startNotifyAdmin() { 
+                                                                            console.log("||||||||||||||  STARTING NOTIFY||||||||||")
+                                                                            console.log(jingz_array.d_token)
+                                                                            let message = {
+                                                                                data : {
+                                                                                    "title":"Hello "+machi.name,
+                                                                                    "body":suresult.name +" Rejected your Bookings for "+jingz_array.sessions.by,
+                                                                                    "code":"302",
+                                                                                },
+                                                                                "android" :{
+                                                                                    "notification":{
+                                                                                        "title":"Hello "+machi.name,
+                                                                                        "body":suresult.name +" Rejected your Bookings for "+jingz_array.sessions.by,
+                                                                                        "click_action":"com.techie_dany.srecshb.firenotify"
+                                                                                    },
+                                                                                  
+                                                                                },
+                                                                                token : jingz_array.d_token
+                                                                            }
+                                                                            messaging.messaging().send(message)
+                                                                            .then((result) => {
+                                                                                console.log(result)
+                                                                            }).catch((msgerr) => {
+                                                                                console.log(msgerr)
+                                                                            });
+                                                                        }
+                                                                    filterFine()
+                                                                    .catch((e)=>{
+                                                                        console.log(e)
+                                                                        res.send("error at fine "+e)
+                                                                    })
+                                                                    startNotifyAdmin()
+                                                                    .catch((notifierr)=>{
+                                                                        console.log(notifierr)
+                                                                        // res.send("error on messese sending to admin")
+                                                                    })
+                                                        }).catch((err) => {
+                                                                console.log("status of hall_details status " +err)
+                                                              res.send("erro status of hall_details status")
+                                                        });
+                                        }).catch((err) => {
+                                            console.log(err)
+                                            res.send(err)
+                                        });
+                                    // res.send(adjees)
+                                }).catch((aderr) => {
+                                    console.log(aderr)
+                                    res.send(aderr)
+                                });
+                
+                    }).catch((err) => {
+                        console.log("error while adding and removing from inbox and approved " +err)
+                        res.send("error while adding and removing from inbox and approved")
+                    });
+        }).catch((err) => {
+            console.log(err)
+            res.send(err)
+        });
+
+    })
+
+    
+    
+        module.exports = app;
+            // {
+            // "date":"",
+            // "hall_id":101,
+            // "sessions_id":[5,6]
+            // }
+    
+        // const jsonInput = {
+        //     "email" : req.body.email,
+        //     "hall_id":req.body.hall_id,
+        // "bookings" : {
+        //         "date_container" : [{
+        //             "date" : req.body.date,
+        //             "sessions" : [{
+        //                 "session_id" : req.body.session_id,
+        //                 "status" : 1,
+        //                 "book_desc" : req.body.book_desc,
+        //                 "by" :req.body.by 	
+        //             }],
+        //         }]}
+        // }
+    
+        // let date_cont =jsonInput.bookings.date_container[0];   // new date
+
+        // let session_cont = jsonInput.bookings.date_container[0].sessions[0]
+        // console.log(req.body.date)
+        // console.log(req.body.hall_id)
+        //     var ses_Array = [];
+        //   for (let y=0;y<req.body.session_id.length;y++){
+        //       ses_Array.push(req.body.session_id[y])
+        //  }
+
+
+
 
     // mongoClient.superadmin_accounts.findOneAndUpdate({hall_id:req.body.hall_id,"inbox.date":req.body.date,"inbox.sessions.session_id":[req.body.session_id]},
     // {$set:{"desc":"jesus will help me"}})
