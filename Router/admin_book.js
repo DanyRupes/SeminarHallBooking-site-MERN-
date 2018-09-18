@@ -23,6 +23,7 @@ app.post('/admin/book_hall/', function(req, res){
             "date_container" : [{
                 "date" : req.body.date,
                 "sessions" : [{
+                    "_id":req.body.hall_id,
                     "session_id" : req.body.session_id,
                     "status" : -1,
                     "book_desc" : req.body.book_desc,
@@ -95,7 +96,7 @@ console.log(date_cont)
                 console.log(admin_email)
                 // add first to admin pending bucket
                 mongoClient.admin_accounts.findOneAndUpdate({email : admin_email},{$addToSet : {pendings : pendings}
-                },{upsert:true})  //getting admin device token
+                },{upsert:true,new :true})  //getting admin device token
                 .then((adData)=>{
                     console.log("admin Resultss.... ")
                     console.log(adData)

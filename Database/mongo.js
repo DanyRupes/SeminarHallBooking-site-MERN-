@@ -26,6 +26,7 @@ var superadmin_accounts = new Schema({
     inbox : [{
         date : String,
         sessions : {
+            "_id":String,
             "session_id" : Object,
             "status" : Number,
             "book_desc" :String,
@@ -37,6 +38,7 @@ var superadmin_accounts = new Schema({
     approved :  [{
         date : String,
         sessions : {
+            "_id":String,
             "session_id" : Object,
             "status" : Number,
             "book_desc" :String,
@@ -48,6 +50,7 @@ var superadmin_accounts = new Schema({
     rejected : [{
         date : String,
         sessions : {
+            "_id":String,
             "session_id" : Object,
             "status" : Number,
             "book_desc" :String,
@@ -68,6 +71,7 @@ var admin_accounts = new Schema({
     booked :  [{
         date : String,
         sessions : {
+            "_id":String,
             "session_id" : [Number],
             "status" : Number,
             "book_desc" :String,
@@ -77,13 +81,12 @@ var admin_accounts = new Schema({
     rejected : [{
         date : String,
         sessions : {
+            "_id":String,
             "session_id" : Object,
             "status" : Number,
             "book_desc" :String,
             "by" :String 	
          },
-        email : String,
-        d_token : String,
     }],
 })
 

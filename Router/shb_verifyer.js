@@ -43,9 +43,6 @@ app.post('/verify/shb_user/', function(req, res){
                                 hall_id : data.hall_id,
                             },{$set :{
                                 device_token : device_token,
-                                inbox : [],
-                                approved:[],
-                                rejected : [],
                             }},{upsert:true}).then((fine)=>{
                                 console.log(fine)////if no valus in db it returns null and we should get updated document
                                 if(fine==null){
@@ -76,9 +73,6 @@ app.post('/verify/shb_user/', function(req, res){
                                 role : 2,
                             },{
                                 $set :{device_token : device_token,
-                                    booked: [],
-                                    rejected : [],
-                                    pendings: [],
                                 }
                             },{upsert:true}).then((fine)=>{
                                 if(fine==null){
