@@ -11,3 +11,38 @@ const  = {
 
 admin 
 "device_token":"e4I9WOu-MxU:APA91bFKpVZSf0eN82b1vmsu3IIXhXOVlmtI8S39B60vf3gwVnFj8_0uAsg3TRcx87zfnZRf5kcXYfvrh3PNmP9GLtJmIIMXraxu8uENGtloT8KGVF1G2Yj-OmzfXdP_HGln_iZ9SMih"
+
+
+{
+    "android": {
+        "notification": {
+            "autoCancel": true,
+            "bigPictureStyle": {
+                "contentTitle": "json2notification",
+                "summaryText": "JSON to Android Notification",
+                "bigLargeIcon": "http://upload.wikimedia.org/wikipedia/en/b/bc/Wiki.png",
+                "bigPicture": "http://upload.wikimedia.org/wikipedia/en/b/bc/Wiki.png"
+            },
+            "contentInfo": "json2notification.Json2Notification.from(context).with(json).notification();",
+            "contentIntent": {
+                "getActivity": true,
+                "intent": {
+                    "action": "android.intent.action.VIEW",
+                    "uri": "https://play.google.com/store/apps/details?id=com.story8.android.gallery"
+                }
+            },
+            "contentText": "JSON to Android Notification",
+            "contentTitle": "json2notification",
+            "deleteIntent": {
+                "getActivity": true,
+                "intent": {
+                    "action": "android.intent.action.VIEW",
+                    "uri": "https://play.google.com/store/apps/details?id=com.story8.android.gallery"
+                }
+            },
+            "largeIcon": "http://upload.wikimedia.org/wikipedia/en/b/bc/Wiki.png",
+            "smallIcon": "R.drawable.ic_launcher",
+            "sound": "content://settings/system/notification_sound"
+        }
+    }
+}

@@ -24,12 +24,14 @@ var shb_verifyer = require('./Router/shb_verifyer.js')
 var common = require('./Router/common.js')
 var forrest = require('./Router/forrest.js')
 var approval = require('./Router/approval.js')
+var admin = require('./Router/admin.js')
 app.use('/',super_admin)
 app.use('/',admin_book)
 app.use('/',shb_verifyer)
 app.use('/',common)
 app.use('/',forrest)
 app.use('/',approval)
+app.use('/',admin)
 
 
 // i have no desire to own you, to claim you. i love you just as you are . free your own.git 
