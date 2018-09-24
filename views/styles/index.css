@@ -1,0 +1,32 @@
+body {
+   padding: 0 !important;
+}
+.myNav  {
+    background-color: #cfe8e8
+}
+.navmain{
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   position: relative;
+   min-height: 80px;
+}
+.endnav {
+   display: flex;
+   justify-content: space-evenly;
+   flex-direction: row;
+}
+.navbar-brand {
+   font-size: 25px;
+    line-height: normal;
+}
+.endnav li {
+   padding: 0px 20px 0px 20px;
+   list-style-type: none;
+   font-family: fantasy;
+   font-size: 23px;
+   color: #05123a;
+}
+.endnav li a {
+   text-decoration: none;
+}
